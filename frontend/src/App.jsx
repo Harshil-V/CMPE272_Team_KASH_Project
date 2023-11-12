@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 // import Dashboard from './pages/Dashboard'
 import NavigationBar from './components/NavBar'
+import Dashboard from './components/Dashboard';
 // import SignUp from './components/SignUp'
 // import ConfirmSignUp from './components/ConfirmSignUp'
 // import CognitoIdentityProviderClient from '@aws-sdk/client-cognito-identity-provider'
@@ -27,6 +28,7 @@ function App() {
 
             <Route path="/" element={<NavigationBar />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/home" element={<Dashboard/>} />
             <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

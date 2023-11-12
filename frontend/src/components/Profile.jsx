@@ -1,18 +1,17 @@
 import { Auth } from "aws-amplify";
 import { useState } from "react";
-import BasicExample from "./NavBar";
+import NavigationBar from "./NavBar";
+import Card from 'react-bootstrap/Card';
 
 const Profile = () => {
-   
+
     const [authUserEmail, setAuthUserEmail] = useState("");
     const [authGroups, setAuthGroups] = useState([]);
 
     Auth.currentAuthenticatedUser({
         bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     }).then(user => {
-        // console.log(user)
         const groups = user.signInUserSession.idToken.payload['cognito:groups'];
-        // console.log('User groups:', groups);
         setAuthGroups(groups)
         setAuthUserEmail(user.attributes.email)
     }).catch(err => {
@@ -20,14 +19,24 @@ const Profile = () => {
     });
 
     return (
-       
+
 
         authUserEmail && (
             <div>
-                <BasicExample />
-                <h2>{authUserEmail}</h2>
-                <p>Group Status: {authGroups}</p>
-                <p></p>
+                <NavigationBar />
+
+
+                <div style={{ padding: 8}}>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Body>
+                            <Card.Title>{authUserEmail}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">{authGroups}</Card.Subtitle>
+                            <Card.Link href="#">Card Link</Card.Link>
+                            <Card.Link href="#">Another Link</Card.Link>
+                        </Card.Body>
+                    </Card>
+                    
+                </div>
             </div>
         )
     );
