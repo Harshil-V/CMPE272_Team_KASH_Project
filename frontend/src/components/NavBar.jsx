@@ -56,14 +56,14 @@ function NavigationBar() {
                         {
                             constainsStudents &&
                             <>
-                                <Nav.Link href="">Home</Nav.Link>
-                                <Nav.Link href="">Courses</Nav.Link>
+                                <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="/courses">Courses</Nav.Link>
                                 <Nav.Link href="">Grades</Nav.Link>
                             </>
                         }
 
 
-                        <Nav.Link style={{ color: 'red', }} onClick={signOut}>Logout</Nav.Link>
+                        <Nav.Link style={{ color: 'red' }} onClick={signOut}>Logout</Nav.Link>
 
                         {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

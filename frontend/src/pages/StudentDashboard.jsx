@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Container, Card, Table, Row, Col, Button } from 'react-bootstrap';
-import NavigationBar from '../components/NavBar';
+import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useState } from 'react';
 
 function StudentDashboard() {
     const [date, setDate] = useState(new Date());
@@ -21,7 +21,6 @@ function StudentDashboard() {
 
     return (
         <>
-            <NavigationBar />
 
             <Container style={{ marginTop: '20px' }}>
                 <Card className="mb-3">
@@ -50,7 +49,9 @@ function StudentDashboard() {
                                     <tbody>
                                         {classes.map((c) => (
                                             <tr key={c.id}>
-                                                <td>{c.name}</td>
+                                                <td>
+                                                    <Link to={`/class/${c.name}`} target='_blank'>{c.name}</Link>
+                                                </td>
                                                 <td>{c.teacher}</td>
                                                 <td>{c.schedule}</td>
                                             </tr>
@@ -100,7 +101,7 @@ function StudentDashboard() {
                 {/* Additional Components */}
                 {/* For example, a button to view detailed grade reports */}
                 <Button variant="primary">View Detailed Grade Report</Button>
-            </Container> F
+            </Container>
         </>
 
     )
