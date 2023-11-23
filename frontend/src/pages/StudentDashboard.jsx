@@ -1,7 +1,11 @@
 import { Container, Card, Table, Row, Col, Button } from 'react-bootstrap';
 import NavigationBar from '../components/NavBar';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { useState } from 'react';
 
 function StudentDashboard() {
+    const [date, setDate] = useState(new Date());
 
     const classes = [
         { id: 1, name: 'Mathematics', teacher: 'Mr. Smith', schedule: 'Mon, Wed, Fri' },
@@ -78,6 +82,16 @@ function StudentDashboard() {
                                         ))}
                                     </tbody>
                                 </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+
+                    {/* Mini Calendar */}
+                    <Col md={4}>
+                        <Card className="mb-3">
+                            <Card.Body>
+                                <Card.Title>Calendar</Card.Title>
+                                <Calendar onChange={setDate} value={date} />
                             </Card.Body>
                         </Card>
                     </Col>
