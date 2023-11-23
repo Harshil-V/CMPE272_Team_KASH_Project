@@ -9,8 +9,9 @@ import Profile from './components/Profile'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 // import Dashboard from './pages/Dashboard'
-import NavigationBar from './components/NavBar'
-import Dashboard from './components/Dashboard';
+// import NavigationBar from './components/NavBar'
+// import Dashboard from './components/Dashboard';
+import StudentDashboard from './pages/StudentDashboard';
 // import SignUp from './components/SignUp'
 // import ConfirmSignUp from './components/ConfirmSignUp'
 // import CognitoIdentityProviderClient from '@aws-sdk/client-cognito-identity-provider'
@@ -18,17 +19,15 @@ import Dashboard from './components/Dashboard';
 
 function App() {
 
-  // const { isAuthenticated } = useAuth0();
-  // const client = new CognitoIdentityProviderClient({region: "us-west-2"})
-
   return (
     <>
       <BrowserRouter>
         <Routes>
 
-            <Route path="/" element={<NavigationBar />} />
+            {/* <Route path="/" element={<NavigationBar />} /> */}
+            <Route path="/" element={<StudentDashboard/>} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/home" element={<Dashboard/>} />
+            
             <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

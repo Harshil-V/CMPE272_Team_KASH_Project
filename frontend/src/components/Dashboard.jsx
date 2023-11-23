@@ -23,8 +23,6 @@ const Dashboard = () => {
     const [key, setKey] = useState('home');
 
     return (
-
-
         authUserEmail && (
             <div>
                 <NavigationBar />
