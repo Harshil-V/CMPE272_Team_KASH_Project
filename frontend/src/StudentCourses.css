@@ -1,0 +1,35 @@
+/* StudentCourses.css */
+
+.student-classes-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .student-classes-table {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden; /* Ensures the rounded corners for the table */
+  }
+  
+  .student-classes-table th {
+    background-color: #888f8b;
+    color: white;
+  }
+  
+  .student-classes-table th,
+  .student-classes-table td {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .student-classes-table thead tr {
+    border-bottom: solid 2px #dee2e6;
+  }
+  
+  .student-classes-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  

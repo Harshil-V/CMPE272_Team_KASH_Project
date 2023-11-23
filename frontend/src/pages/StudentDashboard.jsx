@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Card, Table, Row, Col, Button } from 'react-bootstrap';
+import { Container, Card, Table, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -10,14 +10,24 @@ function StudentDashboard() {
     const classes = [
         { id: 1, name: 'Mathematics', teacher: 'Mr. Smith', schedule: 'Mon, Wed, Fri' },
         { id: 2, name: 'Physics', teacher: 'Mrs. Johnson', schedule: 'Tue, Thu' },
-        // ... more classes
+        { id: 3, name: 'Biology', teacher: 'Dr. Green', schedule: 'Mon, Thu' },
+        { id: 4, name: 'Chemistry', teacher: 'Ms. White', schedule: 'Wed, Fri' },
+        { id: 5, name: 'English Literature', teacher: 'Mr. Brown', schedule: 'Tue, Thu' },
+        { id: 6, name: 'World History', teacher: 'Ms. Black', schedule: 'Mon, Wed' },
+        // ... you can add more classes as needed
     ];
+    
 
     const grades = [
         { class: 'Mathematics', grade: 'A' },
         { class: 'Physics', grade: 'B+' },
-        // ... more grades
+        { class: 'Biology', grade: 'A-' },
+        { class: 'Chemistry', grade: 'B' },
+        { class: 'English Literature', grade: 'B+' },
+        { class: 'World History', grade: 'A' },
+        // ... more grades for additional classes
     ];
+    
 
     return (
         <>
@@ -100,7 +110,7 @@ function StudentDashboard() {
 
                 {/* Additional Components */}
                 {/* For example, a button to view detailed grade reports */}
-                <Button variant="primary">View Detailed Grade Report</Button>
+                {/* <Button variant="primary">View Detailed Grade Report</Button> */}
             </Container>
         </>
 

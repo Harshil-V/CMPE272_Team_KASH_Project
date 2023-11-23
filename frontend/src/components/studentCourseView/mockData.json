@@ -1,0 +1,21 @@
+{
+    "courseId": "123",
+    "code": "Biology",
+    "title": "Introduction to Biology",
+    "description": "This course provides an overview of the fundamental concepts in biology, covering cell structure, genetics, ecology, evolution, and more. It's designed for first-year biology students.",
+    "assignments": [
+        {
+            "name": "Assignment 1: Cell Structure",
+            "dueDate": "2023-12-10"
+        },
+        {
+            "name": "Assignment 2: Genetics and Heredity",
+            "dueDate": "2024-01-15"
+        },
+        {
+            "name": "Assignment 3: Ecosystems",
+            "dueDate": "2024-02-20"
+        }
+    ],
+    "currentGrade": "A-"
+}
