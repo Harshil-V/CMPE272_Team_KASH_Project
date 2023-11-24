@@ -2,6 +2,7 @@ import { Auth } from "aws-amplify";
 import { useState } from "react";
 import NavigationBar from "./NavBar";
 import Card from 'react-bootstrap/Card';
+import UserList from "./admin/UserList";
 
 const Profile = () => {
 
@@ -26,7 +27,7 @@ const Profile = () => {
                 <NavigationBar />
 
 
-                <div style={{ padding: 8}}>
+                <div style={{ padding: 8 }}>
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
                             <Card.Title>{authUserEmail}</Card.Title>
@@ -35,7 +36,10 @@ const Profile = () => {
                             <Card.Link href="#">Another Link</Card.Link>
                         </Card.Body>
                     </Card>
-                    
+
+                </div>
+                <div>
+                    <UserList /> {/* TODO: REMOVE IF UNUSED*/}
                 </div>
             </div>
         )

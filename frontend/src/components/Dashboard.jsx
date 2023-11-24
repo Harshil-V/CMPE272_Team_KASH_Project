@@ -27,17 +27,17 @@ const Dashboard = () => {
             <div>
                 <NavigationBar />
 
-                {containsAdmins &&
+                { containsAdmins &&
                     <>
                         {/* TODO: ADD ADMIN DASHBOARD */}
                     </>
                 }
 
-                {containsStudents &&
+                { containsStudents &&
                     <StudentDashboard />
                 }
 
-                {containsTeachers &&
+                { containsTeachers &&
                     <>
                         {/* TODO: ADD TEACHER DASHBOARD */}
                     </>
