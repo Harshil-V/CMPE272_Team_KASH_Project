@@ -29,10 +29,49 @@ router.get('/getUsers', (req, res) => {
     });
 });
 
+// API endpoint to get all students
+router.get('/students', (req, res) => {
+    // Fetch all users with role "Students" from the database
+    pool.query('SELECT * FROM users WHERE role = ?', ['Students'], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Send the list of students as a JSON response
+        res.json({ students: results });
+    });
+});
+
+// API endpoint to get all Teachers
+router.get('/teachers', (req, res) => {
+    // Fetch all users with role "Students" from the database
+    pool.query('SELECT * FROM users WHERE role = ?', ['Teachers'], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Send the list of students as a JSON response
+        res.json({ teachers: results });
+    });
+});
+
+// API endpoint to get all Admin
+router.get('/admins', (req, res) => {
+    // Fetch all users with role "Students" from the database
+    pool.query('SELECT * FROM users WHERE role = ?', ['Admins'], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Send the list of students as a JSON response
+        res.json({ admins: results });
+    });
+});
+
 // API endpoint to check if a user exists and add if not
 router.post('/users', (req, res) => {
     const { email, role } = req.body; // Assuming you are sending the email and role in the request body
-  
+
     // Check if the user already exists
     pool.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
         if (error) {
