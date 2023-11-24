@@ -32,7 +32,7 @@ router.get('/getUsers', (req, res) => {
 // API endpoint to check if a user exists and add if not
 router.post('/users', (req, res) => {
     const { email, role } = req.body; // Assuming you are sending the email and role in the request body
-
+  
     // Check if the user already exists
     pool.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
         if (error) {
@@ -45,7 +45,7 @@ router.post('/users', (req, res) => {
         }
 
         // User does not exist, add a new entry
-        const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const currentDate = new Date().toISOString();
 
         pool.query(
             'INSERT INTO users (email, created_date, role) VALUES (?, ?, ?)',
