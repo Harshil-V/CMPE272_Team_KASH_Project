@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Card, Row, Col } from 'react-bootstrap';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import ClassDescription from '../components/studentCourseView/ClassDescription';
 import UpcomingAssignments from '../components/studentCourseView/UpcomingAssignments';
@@ -11,6 +13,8 @@ import mockData from '../components/studentCourseView/mockData.json';
 function ClassDetail() {
     let { className } = useParams(); // Get class ID from the URL
     const [courseData, setCourseData] = useState(null);
+    const [date, setDate] = useState(new Date());
+
 
     // useEffect(() => {
     //     const loadData = async () => {
@@ -63,7 +67,18 @@ function ClassDetail() {
                     </Col>
                     <Col md={4}>
                         <CurrentGrade grade={courseData.currentGrade} />
+                        <Card className="mb-3">
+
+                            <Card.Body>
+                                <Card.Title>Calendar</Card.Title>
+                                <center>
+                                    <Calendar onChange={setDate} value={date} />
+                                </center>
+                            </Card.Body>
+
+                        </Card>
                     </Col>
+
                 </Row>
             </Container>
         </>

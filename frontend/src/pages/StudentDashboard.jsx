@@ -16,7 +16,7 @@ function StudentDashboard() {
         { id: 6, name: 'World History', teacher: 'Ms. Black', schedule: 'Mon, Wed' },
         // ... you can add more classes as needed
     ];
-    
+
 
     const grades = [
         { class: 'Mathematics', grade: 'A' },
@@ -27,7 +27,7 @@ function StudentDashboard() {
         { class: 'World History', grade: 'A' },
         // ... more grades for additional classes
     ];
-    
+
 
     return (
         <>
@@ -102,7 +102,9 @@ function StudentDashboard() {
                         <Card className="mb-3">
                             <Card.Body>
                                 <Card.Title>Calendar</Card.Title>
-                                <Calendar onChange={setDate} value={date} />
+                                <center>
+                                    <Calendar onChange={setDate} value={date} />
+                                </center>
                             </Card.Body>
                         </Card>
                     </Col>

@@ -58,7 +58,7 @@ function NavigationBar() {
                             <>
                                 <Nav.Link href="/">Home</Nav.Link>
                                 <Nav.Link href="/courses">Courses</Nav.Link>
-                                <Nav.Link href="">Grades</Nav.Link>
+                                <Nav.Link href="/grades">Grades</Nav.Link>
                             </>
                         }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Table, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../StudentCourses.css';
 
 function CourseViewStudent() {
@@ -36,7 +37,9 @@ function CourseViewStudent() {
                     <tbody>
                         {classes.map(c => (
                             <tr key={c.id}>
-                                <td>{c.name}</td>
+                                <td>
+                                    <Link to={`/class/${c.name}`} target='_blank'>{c.name}</Link>
+                                </td>
                                 <td>{c.teacher}</td>
                             </tr>
                         ))}

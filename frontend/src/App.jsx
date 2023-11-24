@@ -14,6 +14,7 @@ import Dashboard from './components/Dashboard';
 // import ClassDetail from './pages/ClassDetails';
 import ClassView from './pages/ClassView';
 import Courses from './pages/Courses';
+import GradesPage from './pages/StudentGrades';
 // import StudentDashboard from './pages/StudentDashboard';
 // import SignUp from './components/SignUp'
 // import ConfirmSignUp from './components/ConfirmSignUp'
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/grades" element={<GradesPage />} />
             <Route path="/class/:className" element={<ClassView />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
