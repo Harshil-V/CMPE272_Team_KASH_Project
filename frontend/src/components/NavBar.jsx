@@ -21,6 +21,7 @@ function NavigationBar() {
     // const [authUserEmail, setAuthUserEmail] = useState("");
     const constainsStudents = authGroups.includes('Students')
     const constainsAdmins = authGroups.includes('Admin')
+    const constainsTeachers = authGroups.includes('Teachers')
 
     Auth.currentAuthenticatedUser({
         bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
@@ -62,6 +63,14 @@ function NavigationBar() {
                             </>
                         }
 
+                        {
+                            constainsTeachers &&
+                            <>
+                                <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="/courses">Courses</Nav.Link>
+                                <Nav.Link href="/grades">Grades</Nav.Link>
+                            </>
+                        }
 
                         <Nav.Link style={{ color: 'red' }} onClick={signOut}>Logout</Nav.Link>
 

@@ -2,6 +2,7 @@ import { Auth } from "aws-amplify";
 import { useState } from "react";
 import NavigationBar from "./NavBar";
 import StudentDashboard from "../pages/StudentDashboard";
+import TeacherDashboard from "./teacher/TeacherDashboard";
 
 const Dashboard = () => {
 
@@ -27,18 +28,19 @@ const Dashboard = () => {
             <div>
                 <NavigationBar />
 
-                { containsAdmins &&
+                {containsAdmins &&
                     <>
                         {/* TODO: ADD ADMIN DASHBOARD */}
                     </>
                 }
 
-                { containsStudents &&
+                {containsStudents &&
                     <StudentDashboard />
                 }
 
-                { containsTeachers &&
+                {containsTeachers &&
                     <>
+                        <TeacherDashboard />
                         {/* TODO: ADD TEACHER DASHBOARD */}
                     </>
                 }
