@@ -2,7 +2,7 @@ import { Auth } from "aws-amplify";
 import { useState } from "react";
 import NavigationBar from "../components/NavBar";
 import CourseViewStudent from "../components/CourseViewStudent";
-
+import ClassesTaught from "../components/teacher/ClassesTaught";
 function Courses() {
     // const [authUserEmail, setAuthUserEmail] = useState("");
     const [authGroups, setAuthGroups] = useState([]);
@@ -36,6 +36,7 @@ function Courses() {
 
             {containsTeachers &&
                 <>
+                    <ClassesTaught />
                     {/* TODO: ADD TEACHER DASHBOARD */}
                 </>
             }
