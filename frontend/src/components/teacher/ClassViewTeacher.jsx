@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card, Button, Table, Modal, Form } from 'react-bootstrap';
+import GradeAssignment from './GradeAssignment';
 
 function CourseView() {
     let { className } = useParams();
     const [assignments, setAssignments] = useState([]);
-
+    
     // Simulate fetching data from an API
     useEffect(() => {
         const fetchAssignments = async () => {
@@ -45,6 +46,10 @@ function CourseView() {
         setAssignments(updatedAssignments);
     };
 
+    // const handleSelectAssignment = (assignmentId) => {
+    //     setSelectedAssignmentId(assignmentId);
+    // };
+
     return (
         <Container>
             <Card className="my-4">
@@ -78,6 +83,24 @@ function CourseView() {
                             ))}
                         </tbody>
                     </Table>
+                </Card.Body>
+            </Card>
+
+            {/* <Card className="my-4">
+                <Card.Body>
+                    {assignments.map(assignment => (
+                        <div key={assignment.id}>
+                            {assignment.title}
+                            <Button onClick={() => handleSelectAssignment(assignment.id)}>Grade</Button>
+                        </div>
+                    ))}
+                </Card.Body>
+            </Card> */}
+
+            {/* Render GradeAssignment Component */}
+            <Card className="my-4">
+                <Card.Body>
+                    <GradeAssignment courseId={className} />
                 </Card.Body>
             </Card>
 
