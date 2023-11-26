@@ -54,6 +54,7 @@ function GradeAssignment({ term, courseId }) {
 
         const gradesData = {
             term: term,
+            course: courseId,
             assignmentName: assignments.find(a => a.id === Number(selectedAssignment))?.title,
             assignmentId: selectedAssignment,
             grades: grades
