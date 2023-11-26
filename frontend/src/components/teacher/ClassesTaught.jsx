@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Table, Card, Tabs, Tab } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function ClassesTaught() {
     const [termClasses, setTermClasses] = useState({
@@ -117,7 +118,9 @@ function ClassesTaught() {
                                     <tbody>
                                         {termClasses[term].map(c => (
                                             <tr key={c.id}>
-                                                <td>{c.name}</td>
+                                                <td>
+                                                    <Link to={`/manage/${term}/${c.name}`}  target='_blank'>{c.name}</Link>
+                                                </td>
                                                 <td>{c.schedule}</td>
                                                 <td>{c.students}</td>
                                                 <td>{c.room}</td>

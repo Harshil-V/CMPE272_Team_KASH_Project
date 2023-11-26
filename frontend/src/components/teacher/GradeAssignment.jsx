@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Form, Button, Table, Card } from 'react-bootstrap';
 
-function GradeAssignment({ courseId }) {
+function GradeAssignment({ term, courseId }) {
     let { courseID } = useParams();
     const [assignments, setAssignments] = useState([]);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -41,12 +41,34 @@ function GradeAssignment({ courseId }) {
         }
     }, [selectedAssignment]);
 
-    const handleGradeChange = (studentId, grade) => {
-        setGrades(prevGrades => ({ ...prevGrades, [studentId]: grade }));
+    const handleGradeChange = (studentId, studentName, grade) => {
+        const updatedGrade = {
+            assignmentName: assignments.find(a => a.id === Number(selectedAssignment))?.title,
+            studentName: studentName,
+            grade: grade
+        };
+        setGrades(prevGrades => ({ ...prevGrades, [studentId]: updatedGrade }));
     };
 
     const handleSubmitGrades = () => {
-        console.log('Submitting Grades:', grades);
+
+        const gradesData = {
+            term: term,
+            assignmentName: assignments.find(a => a.id === Number(selectedAssignment))?.title,
+            assignmentId: selectedAssignment,
+            grades: grades
+        };
+
+        console.log('Submitting Grades:', gradesData);
+        // axios.post('/api/submit-grades', gradesData)
+        //     .then(response => {
+        //         console.log('Grades submitted successfully', response.data);
+        //         // Handle successful response here (e.g., showing a success message)
+        //     })
+        //     .catch(error => {
+        //         console.error('Error submitting grades', error);
+        //         // Handle errors here (e.g., showing an error message)
+        //     });
         // Here you would typically make an API call to submit the grades to the backend
     };
 
@@ -96,8 +118,8 @@ function GradeAssignment({ courseId }) {
                                             <Form.Control
                                                 type="text"
                                                 placeholder="Enter grade"
-                                                value={grades[student.id] || ''}
-                                                onChange={(e) => handleGradeChange(student.id, e.target.value)}
+                                                value={grades[student.id]?.grade || ''}
+                                                onChange={(e) => handleGradeChange(student.id, student.name, e.target.value)}
                                             />
                                         </td>
                                     </tr>

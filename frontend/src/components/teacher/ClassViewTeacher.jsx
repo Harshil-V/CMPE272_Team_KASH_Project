@@ -4,9 +4,9 @@ import { Container, Card, Button, Table, Modal, Form } from 'react-bootstrap';
 import GradeAssignment from './GradeAssignment';
 
 function CourseView() {
-    let { className } = useParams();
+    let { term, className } = useParams();
     const [assignments, setAssignments] = useState([]);
-    
+
     // Simulate fetching data from an API
     useEffect(() => {
         const fetchAssignments = async () => {
@@ -38,6 +38,37 @@ function CourseView() {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Add logic for form submission (Create/Update assignment)
+
+        const formData = new FormData(event.target);
+        const newAssignment = {
+            term: term,
+            title: formData.get('assignmentTitle'),
+            dueDate: formData.get('assignmentDueDate')
+        };
+
+        // Determine if it's a new assignment or an edit
+        const isEdit = currentAssignment !== null;
+        console.log(`Is Edited: ${isEdit}`)
+        console.log(term)
+        console.log(`assignmentTitle: ${newAssignment.title}`)
+        console.log(`assignmentDueDate: ${newAssignment.dueDate}`)
+
+        
+        // console.log(`assignmentDueDate: ${newAssignment.get('assignmentDueDate')}`)
+        // const endpoint = isEdit ? `/api/assignments/${currentAssignment.id}` : '/api/assignments';
+        // const method = isEdit ? 'put' : 'post';
+
+        // axios[method](endpoint, newAssignment)
+        //     .then(response => {
+        //         // Handle the response
+        //         console.log('Assignment saved successfully', response.data);
+        //         // Update the assignments state or re-fetch assignments
+        //     })
+        //     .catch(error => {
+        //         // Handle any errors
+        //         console.error('Error saving assignment', error);
+        //     });
+        
         handleCloseModal();
     };
 
@@ -54,7 +85,7 @@ function CourseView() {
         <Container>
             <Card className="my-4">
                 <Card.Body>
-                    <Card.Title>Course Management -  {className}</Card.Title>
+                    <Card.Title>Course Management -  {className} ({term})</Card.Title>
                     <Button variant="primary" onClick={() => handleOpenModal()}>
                         Add Assignment
                     </Button>
@@ -100,7 +131,7 @@ function CourseView() {
             {/* Render GradeAssignment Component */}
             <Card className="my-4">
                 <Card.Body>
-                    <GradeAssignment courseId={className} />
+                    <GradeAssignment term={term} courseId={className} />
                 </Card.Body>
             </Card>
 
@@ -115,6 +146,7 @@ function CourseView() {
                             <Form.Label>Title</Form.Label>
                             <Form.Control
                                 type="text"
+                                name="assignmentTitle"
                                 defaultValue={currentAssignment ? currentAssignment.title : ''}
                                 required
                             />
@@ -123,6 +155,7 @@ function CourseView() {
                             <Form.Label>Due Date</Form.Label>
                             <Form.Control
                                 type="date"
+                                name="assignmentDueDate"
                                 defaultValue={currentAssignment ? currentAssignment.dueDate : ''}
                                 required
                             />

@@ -38,7 +38,8 @@ function App() {
             <Route path="/grades" element={<GradesPage />} />
             <Route path="/class/:className" element={<ClassView />} />
             <Route path="/course/:courseID" element={<GradeAssignment />} />
-            <Route path="/manage/:className" element={<ManageClass />} />
+            {/* <Route path="/manage/:className" element={<ManageClass />} /> */}
+            <Route path="/manage/:term/:className/" element={<ManageClass />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
