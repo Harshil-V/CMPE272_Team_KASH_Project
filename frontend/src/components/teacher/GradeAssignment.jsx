@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Form, Button, Table, Card } from 'react-bootstrap';
 
 function GradeAssignment({ courseId }) {
+    let { courseID } = useParams();
     const [assignments, setAssignments] = useState([]);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [students, setStudents] = useState([]);
@@ -50,6 +52,16 @@ function GradeAssignment({ courseId }) {
 
     return (
         <Container>
+
+            {courseID &&
+                <Card className="my-4">
+                    <Card.Body>
+                        <Card.Title>Course: {courseID}</Card.Title>
+                    </Card.Body>
+                </Card>
+            }
+
+
             <Card className="my-4">
                 <Card.Body>
                     <Card.Title>Select Assignment to Grade</Card.Title>
@@ -63,6 +75,7 @@ function GradeAssignment({ courseId }) {
                     </Form.Control>
                 </Card.Body>
             </Card>
+
 
             {selectedAssignment && (
                 <Card>

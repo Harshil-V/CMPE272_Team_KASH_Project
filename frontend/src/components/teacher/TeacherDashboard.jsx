@@ -125,7 +125,7 @@ function TeacherDashboard() {
                         <ClassSchedules />
 
                     </Col>
-                    <Col md={6}>
+                    <Col md={4}>
                         <Card className="mb-3">
                             <Card.Body>
                                 <Card.Title>Calendar</Card.Title>

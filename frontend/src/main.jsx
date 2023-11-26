@@ -11,6 +11,8 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports'
 import '@aws-amplify/ui-react/styles.css'
 
+window.global ||= window;
+
 Amplify.configure(awsExports);
 Auth.configure(awsExports)
 
