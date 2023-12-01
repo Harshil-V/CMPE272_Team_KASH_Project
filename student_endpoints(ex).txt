@@ -1,0 +1,54 @@
+Student Page:
+
+-----------------------------------------------------------------------------------------------------
+/student/enrolledClass/:studentEmail
+
+    const classes = [
+        { id: 1, name: 'Mathematics', teacher: 'Mr. Smith', schedule: 'Mon, Wed, Fri' },
+        { id: 2, name: 'Physics', teacher: 'Mrs. Johnson', schedule: 'Tue, Thu' },
+        { id: 3, name: 'Biology', teacher: 'Dr. Green', schedule: 'Mon, Thu' },
+        { id: 4, name: 'Chemistry', teacher: 'Ms. White', schedule: 'Wed, Fri' },
+        { id: 5, name: 'English Literature', teacher: 'Mr. Brown', schedule: 'Tue, Thu' },
+        { id: 6, name: 'World History', teacher: 'Ms. Black', schedule: 'Mon, Wed' },
+        // ... you can add more classes as needed
+    ];
+
+-----------------------------------------------------------------------------------------------------
+/student/grades/:studentEmail
+
+const grades = [
+        { class: 'Mathematics', grade: 'A' },
+        { class: 'Physics', grade: 'B+' },
+        { class: 'Biology', grade: 'A-' },
+        { class: 'Chemistry', grade: 'B' },
+        { class: 'English Literature', grade: 'B+' },
+        { class: 'World History', grade: 'A' },
+        // ... more grades for additional classes
+    ];
+
+------------------------------------------------------------------------------------------------------
+/student/courseDetails/:courseID
+
+{
+    "courseId": "123",
+    "code": "Biology",
+    "title": "Introduction to Biology",
+    "description": "This course provides an overview of the fundamental concepts in biology, covering cell structure, genetics, ecology, evolution, and more. It's designed for first-year biology students.",
+    "assignments": [
+        {
+            "name": "Assignment 1: Cell Structure",
+            "dueDate": "2023-12-10"
+        },
+        {
+            "name": "Assignment 2: Genetics and Heredity",
+            "dueDate": "2024-01-15"
+        },
+        {
+            "name": "Assignment 3: Ecosystems",
+            "dueDate": "2024-02-20"
+        }
+    ],
+    "currentGrade": "A-"
+}
+
+------------------------------------------------------------------------------------------------------
