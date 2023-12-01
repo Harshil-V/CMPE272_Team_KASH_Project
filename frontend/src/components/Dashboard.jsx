@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Auth } from "aws-amplify";
 import { useState } from "react";
 import NavigationBar from "./NavBar";
@@ -28,20 +29,22 @@ const Dashboard = () => {
             <div>
                 <NavigationBar />
 
-                {containsAdmins &&
+                {!containsAdmins &&
                     <>
-                        {/* TODO: ADD ADMIN DASHBOARD */}
+
+
                     </>
                 }
 
                 {containsStudents &&
-                    <StudentDashboard />
+                    <>
+                        <StudentDashboard />
+                    </>
                 }
 
                 {containsTeachers &&
                     <>
                         <TeacherDashboard />
-                        {/* TODO: ADD TEACHER DASHBOARD */}
                     </>
                 }
             </div>

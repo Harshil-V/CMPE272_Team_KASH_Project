@@ -3,11 +3,7 @@ import { Container, Table, Card, Tabs, Tab, Form, Button } from 'react-bootstrap
 import { Link } from 'react-router-dom';
 
 function ClassesTaught() {
-    const [termClasses, setTermClasses] = useState({
-        // 'Fall 2023': [],
-        // 'Spring 2023': [],
-        // Add more terms as needed
-    });
+    const [termClasses, setTermClasses] = useState({});
     const [newCourse, setNewCourse] = useState({ name: '', term: '' });
     const [terms, setTerms] = useState([]);
 
@@ -19,18 +15,30 @@ function ClassesTaught() {
 
     const handleSubmitNewCourse = (event) => {
         event.preventDefault();
-        // Here, you would typically make an API call to add the new course
-        console.log('Adding new course:', newCourse);
 
-        // Reset the form
+        const newCourseData = {
+            id: Math.floor(Math.random() * 10000), // Generating a random ID for mock purposes
+            name: newCourse.name,
+            schedule: 'TBD', // Schedule can be set to a default value or managed separately
+            students: 0, // Initial student count
+            room: 'TBD', // Room can be managed separately
+            assistants: [],
+            notes: ''
+        };
+
+        setTermClasses(prevClasses => ({
+            ...prevClasses,
+            [newCourse.term]: [...(prevClasses[newCourse.term] || []), newCourseData]
+        }));
         setNewCourse({ name: '', term: '' });
     };
+
 
     useEffect(() => {
         const fetchTerms = async () => {
             // Simulate fetching terms from an API
             setTimeout(() => {
-                const fetchedTerms = ['Fall 2023', 'Spring 2023', 'Summer 2023'];
+                const fetchedTerms = ['Grade 10', 'Grade 11', 'Grade 12'];
                 setTerms(fetchedTerms);
             }, 1000);
         };
@@ -39,89 +47,101 @@ function ClassesTaught() {
     }, []);
 
     useEffect(() => {
-        // Expanded data structure for classes
-        const fetchedClasses = {
-            'Fall 2023': [
+        const MOCK_CLASSES = {
+            'Grade 10': [
                 {
                     id: 1,
-                    name: 'Mathematics',
+                    name: 'Algebra I',
                     schedule: 'Mon, Wed, Fri - 09:00 AM',
-                    students: 30,
+                    students: 1,
                     room: 'Room 101',
-                    assistants: ['Alice Johnson', 'Bob Smith'],
-                    notes: 'Focus on algebra and calculus'
+                    assistants: ['Alice Johnson'],
+                    notes: 'Introductory algebra course'
                 },
                 {
                     id: 2,
-                    name: 'Chemistry',
+                    name: 'Biology',
                     schedule: 'Tue, Thu - 10:00 AM',
-                    students: 25,
+                    students: 1,
                     room: 'Room 102',
-                    assistants: ['Charlie Davis'],
-                    notes: 'Lab work every Thursday'
+                    assistants: ['Brian Taylor'],
+                    notes: 'Focus on cellular biology and genetics'
+                },
+                {
+                    id: 3,
+                    name: 'English Literature',
+                    schedule: 'Mon, Wed - 11:00 AM',
+                    students: 1,
+                    room: 'Room 103',
+                    assistants: ['Cynthia Morris'],
+                    notes: 'Study of classic and contemporary literature'
+                },
+                // ... more Grade 10 classes
+            ],
+            'Grade 11': [
+                {
+                    id: 4,
+                    name: 'Geometry',
+                    schedule: 'Tue, Thu - 09:00 AM',
+                    students: 1,
+                    room: 'Room 201',
+                    assistants: ['David Allen'],
+                    notes: 'Exploring geometric shapes and theorems'
                 },
                 {
                     id: 5,
-                    name: 'World History',
-                    schedule: 'Mon, Wed - 01:00 PM',
-                    students: 28,
-                    room: 'Room 201',
-                    assistants: ['Greg Hale'],
-                    notes: 'Guest speakers every month'
+                    name: 'Chemistry',
+                    schedule: 'Mon, Wed, Fri - 10:00 AM',
+                    students: 0,
+                    room: 'Room 202',
+                    assistants: ['Elaine He'],
+                    notes: 'Introduction to chemical reactions and lab safety'
                 },
                 {
                     id: 6,
-                    name: 'Art',
-                    schedule: 'Tue, Thu - 02:00 PM',
-                    students: 22,
-                    room: 'Room 202',
-                    assistants: ['Hannah Zee'],
-                    notes: 'Field trip to the art museum in October'
+                    name: 'World History',
+                    schedule: 'Tue, Thu - 11:00 AM',
+                    students: 0,
+                    room: 'Room 203',
+                    assistants: ['Frank Gordon'],
+                    notes: 'A study of global historical events from the 18th century'
                 },
-                // ... more fall classes
+                // ... more Grade 11 classes
             ],
-            'Spring 2023': [
-                {
-                    id: 3,
-                    name: 'Physics',
-                    schedule: 'Mon, Wed - 11:00 AM',
-                    students: 20,
-                    room: 'Room 103',
-                    assistants: [],
-                    notes: 'Includes a monthly project'
-                },
-                {
-                    id: 4,
-                    name: 'Biology',
-                    schedule: 'Tue, Thu - 12:00 PM',
-                    students: 28,
-                    room: 'Room 104',
-                    assistants: ['Diana Reed', 'Evan Lee'],
-                    notes: 'Field trips planned'
-                },
+            'Grade 12': [
                 {
                     id: 7,
-                    name: 'Computer Science',
-                    schedule: 'Mon, Fri - 10:00 AM',
-                    students: 25,
+                    name: 'Calculus',
+                    schedule: 'Mon, Wed - 09:00 AM',
+                    students: 1,
                     room: 'Room 301',
-                    assistants: ['Ivan Gregg'],
-                    notes: 'Focus on programming and algorithms'
+                    assistants: ['Gina Patel'],
+                    notes: 'Advanced course in differential and integral calculus'
                 },
                 {
                     id: 8,
-                    name: 'Physical Education',
-                    schedule: 'Wed, Fri - 01:00 PM',
-                    students: 30,
-                    room: 'Gym',
-                    assistants: ['Jackie Kline'],
-                    notes: 'Preparation for the annual sports day'
+                    name: 'Physics',
+                    schedule: 'Tue, Thu - 10:00 AM',
+                    students: 0,
+                    room: 'Room 302',
+                    assistants: ['Harry Smith'],
+                    notes: 'Understanding of basic principles of physics and experiments'
                 },
-                // ... more spring classes
+                {
+                    id: 9,
+                    name: 'Political Science',
+                    schedule: 'Mon, Wed, Fri - 11:00 AM',
+                    students: 2,
+                    room: 'Room 303',
+                    assistants: ['Irene Adler'],
+                    notes: 'Analysis of political systems and government policies'
+                },
+                // ... more Grade 12 classes
             ],
-            // ... other terms
+            // ... other grade levels
         };
-        setTermClasses(fetchedClasses);
+
+        setTermClasses(MOCK_CLASSES);
     }, []);
 
 
@@ -130,30 +150,28 @@ function ClassesTaught() {
             <Card className="mb-4 mt-4">
                 <Card.Body>
                     <Card.Title>Classes I Teach</Card.Title>
-                    <Tabs defaultActiveKey="Fall 2023" id="class-term-tabs">
-                        {Object.keys(termClasses).map(term => (
-                            <Tab eventKey={term} title={term} key={term}>
+                    <Tabs defaultActiveKey="Grade 10" id="grade-level-tabs">
+                        {Object.keys(termClasses).map(gradeLevel => (
+                            <Tab eventKey={gradeLevel} title={gradeLevel} key={gradeLevel}>
                                 <Table striped bordered hover className="mt-3">
                                     <thead>
                                         <tr>
                                             <th>Class Name</th>
                                             <th>Schedule</th>
                                             <th>Number of Students</th>
-                                            <th>Room</th>
-                                            <th>Assistants</th>
+                                            {/* <th>Room</th>
+                                            <th>Assistants</th> */}
                                             <th>Notes</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {termClasses[term].map(c => (
+                                        {termClasses[gradeLevel].map(c => (
                                             <tr key={c.id}>
-                                                <td>
-                                                    <Link to={`/manage/${term}/${c.name}`} target='_blank'>{c.name}</Link>
-                                                </td>
+                                                <td><Link to={`/manage/${gradeLevel}/${c.name}`} target='_blank'>{c.name}</Link></td>
                                                 <td>{c.schedule}</td>
                                                 <td>{c.students}</td>
-                                                <td>{c.room}</td>
-                                                <td>{c.assistants.join(', ')}</td>
+                                                {/* <td>{c.room}</td>
+                                                <td>{c.assistants.join(', ')}</td> */}
                                                 <td>{c.notes}</td>
                                             </tr>
                                         ))}
@@ -162,6 +180,7 @@ function ClassesTaught() {
                             </Tab>
                         ))}
                     </Tabs>
+
                 </Card.Body>
             </Card>
 

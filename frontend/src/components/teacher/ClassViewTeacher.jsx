@@ -4,7 +4,7 @@ import { Container, Card, Button, Table, Modal, Form } from 'react-bootstrap';
 import GradeAssignment from './GradeAssignment';
 
 function CourseView() {
-    let { term, className } = useParams();
+    let { gradeLevel, className } = useParams();
     const [assignments, setAssignments] = useState([]);
 
     // Simulate fetching data from an API
@@ -12,8 +12,8 @@ function CourseView() {
         const fetchAssignments = async () => {
             setTimeout(() => {
                 const fetchedAssignments = [
-                    { id: 1, title: 'Essay on Environmental Science', dueDate: '2023-03-10' },
-                    { id: 2, title: 'Lab Report: Chemistry Experiment', dueDate: '2023-03-17' },
+                    { id: 1, title: 'Assignment #1', dueDate: '2023-03-10' },
+                    { id: 2, title: 'Assignment #2', dueDate: '2023-03-17' },
                     // More assignments
                 ];
                 setAssignments(fetchedAssignments);
@@ -37,39 +37,58 @@ function CourseView() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Add logic for form submission (Create/Update assignment)
 
         const formData = new FormData(event.target);
-        const newAssignment = {
-            term: term,
+        const newAssignmentData = {
+            id: currentAssignment ? currentAssignment.id : Math.random(), // Temporary ID generation
             title: formData.get('assignmentTitle'),
             dueDate: formData.get('assignmentDueDate')
         };
 
-        // Determine if it's a new assignment or an edit
-        const isEdit = currentAssignment !== null;
-        console.log(`Is Edited: ${isEdit}`)
-        console.log(term)
-        console.log(`assignmentTitle: ${newAssignment.title}`)
-        console.log(`assignmentDueDate: ${newAssignment.dueDate}`)
+        if (currentAssignment) {
+            // Edit existing assignment
+            setAssignments(prevAssignments => prevAssignments.map(a => a.id === currentAssignment.id ? newAssignmentData : a));
+        } else {
+            // Add new assignment
+            setAssignments(prevAssignments => [...prevAssignments, newAssignmentData]);
+        }
 
-        
-        // console.log(`assignmentDueDate: ${newAssignment.get('assignmentDueDate')}`)
-        // const endpoint = isEdit ? `/api/assignments/${currentAssignment.id}` : '/api/assignments';
-        // const method = isEdit ? 'put' : 'post';
+        // Reset form and close modal
+        setCurrentAssignment(null);
+        setShowModal(false);
+        // // Add logic for form submission (Create/Update assignment)
 
-        // axios[method](endpoint, newAssignment)
-        //     .then(response => {
-        //         // Handle the response
-        //         console.log('Assignment saved successfully', response.data);
-        //         // Update the assignments state or re-fetch assignments
-        //     })
-        //     .catch(error => {
-        //         // Handle any errors
-        //         console.error('Error saving assignment', error);
-        //     });
-        
-        handleCloseModal();
+        // const formData = new FormData(event.target);
+        // const newAssignment = {
+        //     gradeLevel: gradeLevel,
+        //     title: formData.get('assignmentTitle'),
+        //     dueDate: formData.get('assignmentDueDate')
+        // };
+
+        // // DegradeLeveline if it's a new assignment or an edit
+        // const isEdit = currentAssignment !== null;
+        // console.log(`Is Edited: ${isEdit}`)
+        // console.log(gradeLevel)
+        // console.log(`assignmentTitle: ${newAssignment.title}`)
+        // console.log(`assignmentDueDate: ${newAssignment.dueDate}`)
+
+
+        // // console.log(`assignmentDueDate: ${newAssignment.get('assignmentDueDate')}`)
+        // // const endpoint = isEdit ? `/api/assignments/${currentAssignment.id}` : '/api/assignments';
+        // // const method = isEdit ? 'put' : 'post';
+
+        // // axios[method](endpoint, newAssignment)
+        // //     .then(response => {
+        // //         // Handle the response
+        // //         console.log('Assignment saved successfully', response.data);
+        // //         // Update the assignments state or re-fetch assignments
+        // //     })
+        // //     .catch(error => {
+        // //         // Handle any errors
+        // //         console.error('Error saving assignment', error);
+        // //     });
+
+        // handleCloseModal();
     };
 
     const handleDelete = (assignmentId) => {
@@ -85,7 +104,7 @@ function CourseView() {
         <Container>
             <Card className="my-4">
                 <Card.Body>
-                    <Card.Title>Course Management -  {className} ({term})</Card.Title>
+                    <Card.Title>Course Management -  {className} ({gradeLevel})</Card.Title>
                     <Button variant="primary" onClick={() => handleOpenModal()}>
                         Add Assignment
                     </Button>
@@ -131,7 +150,7 @@ function CourseView() {
             {/* Render GradeAssignment Component */}
             <Card className="my-4">
                 <Card.Body>
-                    <GradeAssignment term={term} courseId={className} />
+                    <GradeAssignment gradeLevel={gradeLevel} courseId={className} assignmentList={assignments} />
                 </Card.Body>
             </Card>
 

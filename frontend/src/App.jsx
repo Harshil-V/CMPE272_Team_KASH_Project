@@ -39,7 +39,10 @@ function App() {
             <Route path="/class/:className" element={<ClassView />} />
             {/* <Route path="/course/:courseID" element={<GradeAssignment />} /> */}
             {/* <Route path="/manage/:className" element={<ManageClass />} /> */}
-            <Route path="/manage/:term/:className/" element={<ManageClass />} />
+
+            
+            <Route path="/manage/:gradeLevel/:className/" element={<ManageClass />} />
+            {/* <Route path="/manage/:term/:className/" element={<ManageClass />} /> */}
             <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
