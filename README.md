@@ -29,7 +29,6 @@ Make sure you have the following software installed on your local machine:
 - Manage Grade
 
 ### Local Project Configuration
-[Provide instructions on how to configure the project locally, if applicable]
 
 ## How to Set Up and Run the Project Locally
 
