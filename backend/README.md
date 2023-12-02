@@ -48,7 +48,7 @@ $ mvn clean package
 <h4>4. To run the Spring boot application using jar </h4>
 
 ```bash
-$ java -jar target/travel-app-0.0.1-SNAPSHOT.jar
+$ java -jar target/school-management-0.0.1-SNAPSHOT.jar
 ```
 
 <h4>5. To run the Spring boot application using Maven </h4>
