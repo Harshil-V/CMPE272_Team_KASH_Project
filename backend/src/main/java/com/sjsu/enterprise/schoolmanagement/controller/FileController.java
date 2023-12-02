@@ -1,7 +1,6 @@
 package com.sjsu.enterprise.schoolmanagement.controller;
 
 import com.sjsu.enterprise.schoolmanagement.entity.FileEntity;
-import com.sjsu.enterprise.schoolmanagement.model.Student;
 import com.sjsu.enterprise.schoolmanagement.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/file")
@@ -21,73 +19,59 @@ public class FileController {
 	private FileService fileService;
 
 	@PostMapping(value= "/uploadFile")
-    public ResponseEntity<String> uploadFile(@RequestPart(value = "file") final MultipartFile multipartFile){
-		System.out.println(multipartFile);
-		fileService.uploadFile(multipartFile);
-		final String response = "[" + multipartFile.getOriginalFilename() + "] uploaded successfully.";
-        return new ResponseEntity<>(response, HttpStatus.OK);
-       
-    }
-	
-	@PostMapping(value= "/uploadFileDetails")
-    public ResponseEntity<String> uploadFileDetails(@RequestBody FileEntity fileEntity) {
-		System.out.println(fileEntity);
-		fileService.uploadFileDetails(fileEntity);
-        return new ResponseEntity<>("Successfully updated DB", HttpStatus.OK);
-       
-    }
-	
-	@RequestMapping(value="/download/{fileName}")
-    public String downloadFile(@PathVariable("fileName") String imageName) throws IOException {
-		fileService.downloadImageFromS3(imageName);
-		return "Download successful !!";
-    }
-	
-	@RequestMapping(value="/delete/{fileName}")
-    public String deleteFile(@PathVariable("fileName") String fileName) throws IOException {
-		fileService.deleteImage(fileName);
-		return "Delete successful !!";
-    }
-	
-	@RequestMapping(value="/view")
-    public @ResponseBody List<FileEntity> viewFile(@RequestBody Student student) throws IOException {
-		return fileService.viewAllImages(student);
-    }
-	
-	@RequestMapping(value="/studentView")
-    public @ResponseBody List<FileEntity> viewMyFile(@RequestBody Student student) throws IOException {
-		System.out.println("Student email "+ student.getStudentEmail());
-		return fileService.viewMyImages(student);
-    }
-	
-	@RequestMapping(value="/studentFile/{fileId}")
-    public @ResponseBody FileEntity getMyUserFile(@PathVariable("fileId") Long fileId) throws IOException {
-		System.out.println(fileId);
-		return fileService.getMyUserFiledetails(fileId);
-		
-    }
+	public ResponseEntity<?> uploadFile(@RequestPart(value = "fileDesc") String fileDesc,
+										@RequestPart(value = "versionNo") String versionNo,
+										@RequestPart(value = "userEmail") String userEmail,
+										@RequestPart(value = "file") final MultipartFile multipartFile) {
+		FileEntity fileEntity = new FileEntity();
+		fileEntity.setFileDesc(fileDesc);
+		fileEntity.setVersionNo(versionNo);
+		fileEntity.setUserEmail(userEmail);
+		return fileService.uploadFile(multipartFile, fileEntity);
+	}
 
-	@RequestMapping(value="/updateImageAbout")
-    public @ResponseBody String updateImageAbout(@RequestBody FileEntity fileEntity) throws IOException {
-		System.out.println("Filentity updateImageAbout:"+fileEntity.toString());
-		fileService.updateImageAbout(fileEntity);
-		return "Updated successfully";
-    }
-	
-	@RequestMapping(value="/updateImageDetail")
-    public @ResponseBody String updateImageDetail(@RequestBody FileEntity fileEntity) throws IOException {
-		System.out.println("Filentity updateImageDetail:"+fileEntity.toString());
-		fileService.updateImageDetail(fileEntity);
-		return "Updated successfully";
-    }
-	
-	@RequestMapping(value="/allFiles")
-    public List<FileEntity> getAllFiles() throws IOException {
+	@GetMapping(value="/download/{fileName}")
+	public ResponseEntity<?> downloadFile(@PathVariable("fileName") String fileName) {
+		try {
+			return fileService.downloadFileFromS3(fileName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("An error occurred while downloading file.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@DeleteMapping(value="/delete/{fileName}")
+	public ResponseEntity<?> deleteFile(@PathVariable("fileName") String fileName) {
+		return fileService.deleteFile(fileName);
+	}
+
+	@GetMapping(value="/getAllFiles")
+	public ResponseEntity<?> getAllFiles() throws IOException {
 		return fileService.getAllFiles();
-    }
-	
-	@RequestMapping(value="/welcome")
-    public @ResponseBody String defaultPage() {
-		return "Welcome to School Management";
-    }
+	}
+
+	@GetMapping(value="/getUserFilesDetails/{userEmail}")
+	public ResponseEntity<?> getUserFiles(@PathVariable("userEmail") String userEmail) throws IOException {
+		return fileService.getUserFilesDetails(userEmail);
+	}
+
+	@GetMapping(value="/getFileDetailsById/{fileName}")
+	public ResponseEntity<?> getFileDetailsById(@PathVariable("fileName") String fileName) throws IOException {
+		return fileService.getFileDetailsById(fileName);
+	}
+
+	@PostMapping(value="/updateFileDetails")
+	public ResponseEntity<?> updateFileDetails(@RequestBody FileEntity fileEntity) throws IOException {
+		return fileService.updateFileDetails(fileEntity);
+	}
+
+	@PostMapping(value="/updateFileDate")
+	public ResponseEntity<?> updateFileDate(@RequestBody FileEntity fileEntity) throws IOException {
+		return fileService.updateFileDate(fileEntity);
+	}
+
+	@GetMapping(value="/health")
+	public ResponseEntity<?> healthCheck() {
+		return new ResponseEntity<>("Travel App is up and running!", HttpStatus.OK);
+	}
 }

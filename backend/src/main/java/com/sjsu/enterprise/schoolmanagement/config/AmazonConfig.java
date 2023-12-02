@@ -1,5 +1,7 @@
 package com.sjsu.enterprise.schoolmanagement.config;
 
+import com.amazonaws.services.rekognition.AmazonRekognition;
+import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +33,15 @@ public class AmazonConfig {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .build();
 
+    }
+
+    @Bean
+    public AmazonRekognition amazonRekognition() {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
+        return AmazonRekognitionClientBuilder
+                .standard()
+                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .build();
     }
 }

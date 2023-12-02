@@ -178,3 +178,32 @@ drop table attendance;
 
 insert into schoolmanagementdb.attendance (date, student_id, course_id, status)
 values ('2023-11-09', '017449133', '272', 'Present');
+
+create table assignement(
+date date,
+student_id bigint not null,
+course_id int not null,
+status enum('Submitted', 'Pending'),
+primary key (date, student_id, course_id),
+foreign key (student_id) references student(student_id),
+foreign key (course_id) references course(course_id)
+);
+
+select * from assignement;
+insert into schoolmanagementdb.assignement (date, student_id, course_id, status)
+values ('2023-12-01', '017449133', '272', 'Submitted');
+
+
+create table file(
+file_name varchar(50) not null,
+file_desc varchar(500),
+file_url varchar(500),
+version_no varchar(50),
+upload_date varchar(100),
+update_date varchar(100),
+primary key (file_name),
+student_email varchar(60) references student(student_email)
+);
+
+SELECT * from schoolmanagementdb.file;
+drop table file;
