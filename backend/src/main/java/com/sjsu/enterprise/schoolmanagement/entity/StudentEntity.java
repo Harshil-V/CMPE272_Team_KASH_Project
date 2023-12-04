@@ -42,6 +42,29 @@ public class StudentEntity {
 	@Column(name="grade_id")
 	private String gradeId;
 
+    public StudentEntity() {
+    }
+
+    public StudentEntity(Long studentId) {
+		this.studentId = studentId;
+    }
+
+	public StudentEntity(Long studentId, Long parentId, String studentEmail, String studentFirstName,
+						 String studentLastName, String studentPassword, Integer age, String gender,
+						 String studentAddress, Long studentPhone, String gradeId) {
+		this.studentId = studentId;
+		this.parentId = parentId;
+		this.studentEmail = studentEmail;
+		this.studentFirstName = studentFirstName;
+		this.studentLastName = studentLastName;
+		this.studentPassword = studentPassword;
+		this.age = age;
+		this.gender = gender;
+		this.studentAddress = studentAddress;
+		this.studentPhone = studentPhone;
+		this.gradeId = gradeId;
+	}
+
 	public Long getStudentId() {
 		return studentId;
 	}

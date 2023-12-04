@@ -23,7 +23,12 @@ public class Admin {
 	public Admin() {
 		super();
 	}
-	
+
+	public Admin(String adminEmail, String adminPassword) {
+		this.adminEmail = adminEmail;
+		this.adminPassword = adminPassword;
+	}
+
 	public String getAdminEmail() {
 		return adminEmail;
 	}

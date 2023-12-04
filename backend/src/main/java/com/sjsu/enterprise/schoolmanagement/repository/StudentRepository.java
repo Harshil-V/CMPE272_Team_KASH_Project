@@ -10,4 +10,5 @@ import java.util.List;
 public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
 	StudentEntity findByStudentId(Long id);
 	List<StudentEntity> findByGradeId(String gradeId);
+	StudentEntity findByStudentEmail(String studentEmail);
 }

@@ -180,7 +180,7 @@ public class FileService{
 		return new ResponseEntity<>("File has been uploaded successfully!", HttpStatus.OK);
 	}
 
-	private File convertMultiPartFileToFile(final MultipartFile multipartFile) {
+	File convertMultiPartFileToFile(final MultipartFile multipartFile) {
 		final File file = new File(multipartFile.getOriginalFilename());
 		try (final FileOutputStream outputStream = new FileOutputStream(file)) {
 			outputStream.write(multipartFile.getBytes());
@@ -190,7 +190,7 @@ public class FileService{
 		return file;
 	}
 
-	private String uploadFileToS3Bucket(final String bucketName, final File file) {
+	String uploadFileToS3Bucket(final String bucketName, final File file) {
 		final String uniqueFileName = LocalDateTime.now() + "_" + file.getName();
 		final PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, uniqueFileName, file);
 		amazonS3.putObject(putObjectRequest);
