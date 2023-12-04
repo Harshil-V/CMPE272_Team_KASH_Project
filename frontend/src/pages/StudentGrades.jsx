@@ -1,21 +1,30 @@
+import { useState, useEffect } from 'react';
 import { Table, Container } from 'react-bootstrap';
 import NavigationBar from '../components/NavBar';
+import axios from 'axios';
 import '../StudentCourses.css';
 
 function GradesPage() {
-    const grades = [
-        { class: 'Mathematics', grade: 'A' },
-        { class: 'Physics', grade: 'B+' },
-        { class: 'Biology', grade: 'A-' },
-        { class: 'Chemistry', grade: 'B' },
-        { class: 'English Literature', grade: 'B+' },
-        { class: 'World History', grade: 'A' },
-        // ... additional grades
-    ];
+    const [grades, setGrades] = useState([]);
+
+    useEffect(() => {
+        const fetchGrades = async () => {
+            try {
+                // Replace the URL with your actual API endpoint for fetching grades
+                const response = await axios.get('/api/grades');
+                setGrades(response.data);
+            } catch (error) {
+                console.error('Error fetching grades:', error);
+                alert('Error fetching grades');
+            }
+        };
+
+        fetchGrades();
+    }, []);
 
     return (
         <>
-            <NavigationBar/> 
+            <NavigationBar /> 
             <Container className="student-classes-container">
                 <h1>Your Grades</h1>
                 <Table striped bordered hover>

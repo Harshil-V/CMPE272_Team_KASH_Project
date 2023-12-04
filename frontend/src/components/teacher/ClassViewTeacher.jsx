@@ -2,26 +2,25 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card, Button, Table, Modal, Form } from 'react-bootstrap';
 import GradeAssignment from './GradeAssignment';
+import axios from 'axios'
 
 function CourseView() {
     let { gradeLevel, className } = useParams();
     const [assignments, setAssignments] = useState([]);
 
-    // Simulate fetching data from an API
     useEffect(() => {
         const fetchAssignments = async () => {
-            setTimeout(() => {
-                const fetchedAssignments = [
-                    { id: 1, title: 'Assignment #1', dueDate: '2023-03-10' },
-                    { id: 2, title: 'Assignment #2', dueDate: '2023-03-17' },
-                    // More assignments
-                ];
-                setAssignments(fetchedAssignments);
-            }, 1000);
+            try {
+                const response = await axios.get(`/api/courses/${gradeLevel}/${className}/assignments`);
+                setAssignments(response.data);
+            } catch (error) {
+                console.error('Error fetching assignments:', error);
+                alert('Error fetching assignments:', error);
+            }
         };
 
         fetchAssignments();
-    }, []);
+    }, [gradeLevel, className]);
 
     const [showModal, setShowModal] = useState(false);
     const [currentAssignment, setCurrentAssignment] = useState(null);
@@ -35,7 +34,7 @@ function CourseView() {
         setShowModal(false);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const formData = new FormData(event.target);
@@ -45,60 +44,38 @@ function CourseView() {
             dueDate: formData.get('assignmentDueDate')
         };
 
-        if (currentAssignment) {
-            // Edit existing assignment
-            setAssignments(prevAssignments => prevAssignments.map(a => a.id === currentAssignment.id ? newAssignmentData : a));
-        } else {
-            // Add new assignment
-            setAssignments(prevAssignments => [...prevAssignments, newAssignmentData]);
+        try {
+            if (currentAssignment) {
+                // Edit existing assignment
+                await axios.put(`/api/courses/${gradeLevel}/${className}/assignments/${currentAssignment.id}`, newAssignmentData);
+            } else {
+                // Add new assignment
+                await axios.post(`/api/courses/${gradeLevel}/${className}/assignments`, newAssignmentData);
+            }
+
+            // Refresh assignments after adding or editing
+            const response = await axios.get(`/api/courses/${gradeLevel}/${className}/assignments`);
+            setAssignments(response.data);
+        } catch (error) {
+            console.error('Error submitting assignment:', error);
         }
 
         // Reset form and close modal
         setCurrentAssignment(null);
         setShowModal(false);
-        // // Add logic for form submission (Create/Update assignment)
-
-        // const formData = new FormData(event.target);
-        // const newAssignment = {
-        //     gradeLevel: gradeLevel,
-        //     title: formData.get('assignmentTitle'),
-        //     dueDate: formData.get('assignmentDueDate')
-        // };
-
-        // // DegradeLeveline if it's a new assignment or an edit
-        // const isEdit = currentAssignment !== null;
-        // console.log(`Is Edited: ${isEdit}`)
-        // console.log(gradeLevel)
-        // console.log(`assignmentTitle: ${newAssignment.title}`)
-        // console.log(`assignmentDueDate: ${newAssignment.dueDate}`)
-
-
-        // // console.log(`assignmentDueDate: ${newAssignment.get('assignmentDueDate')}`)
-        // // const endpoint = isEdit ? `/api/assignments/${currentAssignment.id}` : '/api/assignments';
-        // // const method = isEdit ? 'put' : 'post';
-
-        // // axios[method](endpoint, newAssignment)
-        // //     .then(response => {
-        // //         // Handle the response
-        // //         console.log('Assignment saved successfully', response.data);
-        // //         // Update the assignments state or re-fetch assignments
-        // //     })
-        // //     .catch(error => {
-        // //         // Handle any errors
-        // //         console.error('Error saving assignment', error);
-        // //     });
-
-        // handleCloseModal();
     };
 
-    const handleDelete = (assignmentId) => {
-        const updatedAssignments = assignments.filter(assignment => assignment.id !== assignmentId);
-        setAssignments(updatedAssignments);
-    };
+    const handleDelete = async (assignmentId) => {
+        try {
+            await axios.delete(`/api/courses/${gradeLevel}/${className}/assignments/${assignmentId}`);
 
-    // const handleSelectAssignment = (assignmentId) => {
-    //     setSelectedAssignmentId(assignmentId);
-    // };
+            // Refresh assignments after deleting
+            const response = await axios.get(`/api/courses/${gradeLevel}/${className}/assignments`);
+            setAssignments(response.data);
+        } catch (error) {
+            console.error('Error deleting assignment:', error);
+        }
+    };
 
     return (
         <Container>

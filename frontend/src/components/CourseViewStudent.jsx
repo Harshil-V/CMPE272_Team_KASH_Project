@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Table, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../StudentCourses.css';
 
 function CourseViewStudent() {
     const [classes, setClasses] = useState([]);
 
-
     useEffect(() => {
-        // Replace this with actual data fetching logic
-        const fetchedClasses = [
-            { id: 1, name: 'Mathematics', teacher: 'Mr. Smith', schedule: 'Mon, Wed, Fri' },
-            { id: 2, name: 'Physics', teacher: 'Mrs. Johnson', schedule: 'Tue, Thu' },
-            { id: 3, name: 'Biology', teacher: 'Dr. Green', schedule: 'Mon, Thu' },
-            { id: 4, name: 'Chemistry', teacher: 'Ms. White', schedule: 'Wed, Fri' },
-            { id: 5, name: 'English Literature', teacher: 'Mr. Brown', schedule: 'Tue, Thu' },
-            { id: 6, name: 'World History', teacher: 'Ms. Black', schedule: 'Mon, Wed' },
-            // ... you can add more classes as needed
-        ];
-        setClasses(fetchedClasses);
+        const fetchData = async () => {
+            try {
+                // Replace the URL with your actual API endpoint for fetching classes
+                const response = await axios.get('/api/classes');
+                setClasses(response.data);
+            } catch (error) {
+                console.error('Error fetching classes:', error);
+            }
+        };
+
+        fetchData();
     }, []);
-
-
 
     return (
         <>
@@ -47,7 +45,7 @@ function CourseViewStudent() {
                 </Table>
             </Container>
         </>
-    )
+    );
 }
 
 export default CourseViewStudent;

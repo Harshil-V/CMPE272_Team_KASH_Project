@@ -2,6 +2,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Form, Button, Table, Card, Modal} from 'react-bootstrap';
+import axios from 'axios';
 
 function GradeAssignment({ term, courseId, assignmentList }) {
     let { courseID } = useParams();
@@ -28,20 +29,20 @@ function GradeAssignment({ term, courseId, assignmentList }) {
 
     useEffect(() => {
         if (selectedAssignment) {
-            // Simulate fetching students when an assignment is selected
             const fetchStudents = async () => {
-                const enrolledStudents = [
-                    { id: 1, name: 'John Doe' },
-                    { id: 2, name: 'Jane Smith' },
-                    // ... more students
-                ];
-                setStudents(enrolledStudents);
-                setGrades({}); // Reset grades state
+                try {
+                    const response = await axios.get(`/api/courses/${courseID}/assignments/${selectedAssignment}/students`);
+                    setStudents(response.data);
+                    setGrades({}); // Reset grades state
+                } catch (error) {
+                    console.error('Error fetching students:', error);
+                    alert('Error fetching students:', error)
+                }
             };
 
             fetchStudents();
         }
-    }, [selectedAssignment]);
+    }, [courseID, selectedAssignment]);
 
     const handleGradeChange = (studentId, studentName, grade) => {
         const updatedGrade = {
@@ -52,8 +53,7 @@ function GradeAssignment({ term, courseId, assignmentList }) {
         setGrades(prevGrades => ({ ...prevGrades, [studentId]: updatedGrade }));
     };
 
-    const handleSubmitGrades = () => {
-
+    const handleSubmitGrades = async () => {
         const gradesData = {
             term: term,
             course: courseId,
@@ -62,23 +62,18 @@ function GradeAssignment({ term, courseId, assignmentList }) {
             grades: grades
         };
 
-        console.log('Submitting Grades:', gradesData);
+        try {
+            await axios.post('/api/submit-grades', gradesData);
 
-        setShowSuccessModal(true); // Show success modal
-        // Optionally, hide the modal after a few seconds
-        setTimeout(() => {
-            setShowSuccessModal(false);
-        }, 3000);
-        // axios.post('/api/submit-grades', gradesData)
-        //     .then(response => {
-        //         console.log('Grades submitted successfully', response.data);
-        //         // Handle successful response here (e.g., showing a success message)
-        //     })
-        //     .catch(error => {
-        //         console.error('Error submitting grades', error);
-        //         // Handle errors here (e.g., showing an error message)
-        //     });
-        // Here you would typically make an API call to submit the grades to the backend
+            setShowSuccessModal(true); // Show success modal
+            // Optionally, hide the modal after a few seconds
+            setTimeout(() => {
+                setShowSuccessModal(false);
+            }, 3000);
+        } catch (error) {
+            console.error('Error submitting grades:', error);
+            alert('Error submitting grades:', error);
+        }
     };
 
     return (

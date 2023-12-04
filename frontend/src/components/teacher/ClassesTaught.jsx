@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Table, Card, Tabs, Tab, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function ClassesTaught() {
     const [termClasses, setTermClasses] = useState({});
@@ -13,7 +14,7 @@ function ClassesTaught() {
         setNewCourse(prevCourse => ({ ...prevCourse, [name]: value }));
     };
 
-    const handleSubmitNewCourse = (event) => {
+    const handleSubmitNewCourse = async (event) => {
         event.preventDefault();
 
         const newCourseData = {
@@ -26,122 +27,30 @@ function ClassesTaught() {
             notes: ''
         };
 
-        setTermClasses(prevClasses => ({
-            ...prevClasses,
-            [newCourse.term]: [...(prevClasses[newCourse.term] || []), newCourseData]
-        }));
-        setNewCourse({ name: '', term: '' });
+        // Assuming your API endpoint is '/api/courses'
+        await axios.post('/api/courses', newCourseData);
+
+        // Refresh data after adding a new course
+        fetchData();
     };
 
+    const fetchData = async () => {
+        try {
+            // Fetch terms
+            const responseTerms = await axios.get('/api/terms');
+            setTerms(responseTerms.data);
+
+            // Fetch classes
+            const responseClasses = await axios.get('/api/classes');
+            setTermClasses(responseClasses.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert('Error fetching data:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchTerms = async () => {
-            // Simulate fetching terms from an API
-            setTimeout(() => {
-                const fetchedTerms = ['Grade 10', 'Grade 11', 'Grade 12'];
-                setTerms(fetchedTerms);
-            }, 1000);
-        };
-
-        fetchTerms();
-    }, []);
-
-    useEffect(() => {
-        const MOCK_CLASSES = {
-            'Grade 10': [
-                {
-                    id: 1,
-                    name: 'Algebra I',
-                    schedule: 'Mon, Wed, Fri - 09:00 AM',
-                    students: 1,
-                    room: 'Room 101',
-                    assistants: ['Alice Johnson'],
-                    notes: 'Introductory algebra course'
-                },
-                {
-                    id: 2,
-                    name: 'Biology',
-                    schedule: 'Tue, Thu - 10:00 AM',
-                    students: 1,
-                    room: 'Room 102',
-                    assistants: ['Brian Taylor'],
-                    notes: 'Focus on cellular biology and genetics'
-                },
-                {
-                    id: 3,
-                    name: 'English Literature',
-                    schedule: 'Mon, Wed - 11:00 AM',
-                    students: 1,
-                    room: 'Room 103',
-                    assistants: ['Cynthia Morris'],
-                    notes: 'Study of classic and contemporary literature'
-                },
-                // ... more Grade 10 classes
-            ],
-            'Grade 11': [
-                {
-                    id: 4,
-                    name: 'Geometry',
-                    schedule: 'Tue, Thu - 09:00 AM',
-                    students: 1,
-                    room: 'Room 201',
-                    assistants: ['David Allen'],
-                    notes: 'Exploring geometric shapes and theorems'
-                },
-                {
-                    id: 5,
-                    name: 'Chemistry',
-                    schedule: 'Mon, Wed, Fri - 10:00 AM',
-                    students: 0,
-                    room: 'Room 202',
-                    assistants: ['Elaine He'],
-                    notes: 'Introduction to chemical reactions and lab safety'
-                },
-                {
-                    id: 6,
-                    name: 'World History',
-                    schedule: 'Tue, Thu - 11:00 AM',
-                    students: 0,
-                    room: 'Room 203',
-                    assistants: ['Frank Gordon'],
-                    notes: 'A study of global historical events from the 18th century'
-                },
-                // ... more Grade 11 classes
-            ],
-            'Grade 12': [
-                {
-                    id: 7,
-                    name: 'Calculus',
-                    schedule: 'Mon, Wed - 09:00 AM',
-                    students: 1,
-                    room: 'Room 301',
-                    assistants: ['Gina Patel'],
-                    notes: 'Advanced course in differential and integral calculus'
-                },
-                {
-                    id: 8,
-                    name: 'Physics',
-                    schedule: 'Tue, Thu - 10:00 AM',
-                    students: 0,
-                    room: 'Room 302',
-                    assistants: ['Harry Smith'],
-                    notes: 'Understanding of basic principles of physics and experiments'
-                },
-                {
-                    id: 9,
-                    name: 'Political Science',
-                    schedule: 'Mon, Wed, Fri - 11:00 AM',
-                    students: 2,
-                    room: 'Room 303',
-                    assistants: ['Irene Adler'],
-                    notes: 'Analysis of political systems and government policies'
-                },
-                // ... more Grade 12 classes
-            ],
-            // ... other grade levels
-        };
-
-        setTermClasses(MOCK_CLASSES);
+        fetchData();
     }, []);
 
 
@@ -200,7 +109,7 @@ function ClassesTaught() {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Term</Form.Label>
+                            <Form.Label>Grade Level</Form.Label>
                             <Form.Control
                                 as="select"
                                 name="term"
@@ -208,7 +117,7 @@ function ClassesTaught() {
                                 onChange={handleNewCourseChange}
                                 required
                             >
-                                <option value="">Select a Term</option>
+                                <option value="">Select a Grade</option>
                                 {terms.map(term => (
                                     <option key={term} value={term}>{term}</option>
                                 ))}
