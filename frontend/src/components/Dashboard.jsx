@@ -27,7 +27,9 @@ const Dashboard = () => {
     return (
         authUserEmail && (
             <div>
+
                 <NavigationBar />
+
 
                 {!containsAdmins &&
                     <>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Container, Card, Table, Row, Col } from 'react-bootstrap';
 import Calendar from 'react-calendar';
@@ -19,16 +20,16 @@ const MOCK_CLASSES = [
 
 function TeacherDashboard() {
     const [date, setDate] = useState(new Date());
-    const [classes, setClasses] = useState(MOCK_CLASSES);
+    const [classes, setClasses] = useState([]);
 
     useEffect(() => {
         const fetchClasses = async () => {
             try {
-                const response = await axios.get('/api/teacher/classes'); // Replace with your actual API endpoint
-                setClasses(response.data.classes); // Assuming the response has a 'classes' field
+                const response = await axios.get('/api/teacher/classes'); 
+                setClasses(response.data.classes);
             } catch (error) {
                 console.error('Error fetching classes:', error);
-                // Handle error scenario (e.g., display an error message)
+                alert('Error fetching classes:', error);
             }
         };
 
