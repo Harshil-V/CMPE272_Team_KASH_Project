@@ -167,7 +167,10 @@ create table attendance(
 date date,
 student_id bigint not null,
 course_id int not null,
-status enum('Present', 'Absent'),
+course_name varchar(50),
+present int,
+absent int,
+total_classes int,
 primary key (date, student_id, course_id),
 foreign key (student_id) references student(student_id),
 foreign key (course_id) references course(course_id)
