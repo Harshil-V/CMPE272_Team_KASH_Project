@@ -1,37 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Card, Table, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
 
 function StudentDashboard() {
     const [date, setDate] = useState(new Date());
+    const [classes, setClasses] = useState([]);
+    const [grades, setGrades] = useState([]);
 
-    const classes = [
-        { id: 1, name: 'Mathematics', teacher: 'Mr. Smith', schedule: 'Mon, Wed, Fri' },
-        { id: 2, name: 'Physics', teacher: 'Mrs. Johnson', schedule: 'Tue, Thu' },
-        { id: 3, name: 'Biology', teacher: 'Dr. Green', schedule: 'Mon, Thu' },
-        { id: 4, name: 'Chemistry', teacher: 'Ms. White', schedule: 'Wed, Fri' },
-        { id: 5, name: 'English Literature', teacher: 'Mr. Brown', schedule: 'Tue, Thu' },
-        { id: 6, name: 'World History', teacher: 'Ms. Black', schedule: 'Mon, Wed' },
-        // ... you can add more classes as needed
-    ];
+    useEffect(() => {
+        const fetchClassesAndGrades = async () => {
+            try {
+                const classesResponse = await axios.get('/api/classes'); // Replace with your actual API endpoint for classes
+                const gradesResponse = await axios.get('/api/grades'); // Replace with your actual API endpoint for grades
 
+                setClasses(classesResponse.data);
+                setGrades(gradesResponse.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert("Error fetching data")
+            }
+        };
 
-    const grades = [
-        { class: 'Mathematics', grade: 'A' },
-        { class: 'Physics', grade: 'B+' },
-        { class: 'Biology', grade: 'A-' },
-        { class: 'Chemistry', grade: 'B' },
-        { class: 'English Literature', grade: 'B+' },
-        { class: 'World History', grade: 'A' },
-        // ... more grades for additional classes
-    ];
-
+        fetchClassesAndGrades();
+    }, []);
 
     return (
         <>
-
             <Container style={{ marginTop: '20px' }}>
                 <Card className="mb-3">
                     <Card.Body>
@@ -109,14 +106,9 @@ function StudentDashboard() {
                         </Card>
                     </Col>
                 </Row>
-
-                {/* Additional Components */}
-                {/* For example, a button to view detailed grade reports */}
-                {/* <Button variant="primary">View Detailed Grade Report</Button> */}
             </Container>
         </>
-
-    )
+    );
 }
 
-export default StudentDashboard
+export default StudentDashboard;

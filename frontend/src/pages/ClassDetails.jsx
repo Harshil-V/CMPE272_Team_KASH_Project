@@ -3,42 +3,30 @@ import { useParams } from 'react-router-dom';
 import { Container, Card, Row, Col } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
 
 import ClassDescription from '../components/studentCourseView/ClassDescription';
 import UpcomingAssignments from '../components/studentCourseView/UpcomingAssignments';
 import CurrentGrade from '../components/studentCourseView/CurrentGrade';
-// import { fetchStudentViewCourseData } from '../api/api';
-import mockData from '../components/studentCourseView/mockData.json';
 
 function ClassDetail() {
-    let { className } = useParams(); // Get class ID from the URL
+    let { className } = useParams();
     const [courseData, setCourseData] = useState(null);
     const [date, setDate] = useState(new Date());
 
-
-    // useEffect(() => {
-    //     const loadData = async () => {
-    //         try {
-    //             const data = await fetchStudentViewCourseData(className);
-    //             setCourseData(data);
-    //         } catch (error) {
-    //             console.error('Error fetching course data:', error);
-    //             // Handle error appropriately
-    //         }
-    //     };
-
-    //     loadData();
-    // }, [className]);
-
     useEffect(() => {
-        // Simulate fetching data
         const fetchData = async () => {
-            // Simulating an API call delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            setCourseData(mockData); // Using mock data
+            try {
+                const response = await axios.get(`/api/courses/${className}`); // Replace with your actual API endpoint
+                setCourseData(response.data);
+            } catch (error) {
+                console.error('Error fetching course data:', error);
+                alert('Error fetching course data')
+                // Handle error appropriately
+            }
         };
 
-        if (className === mockData.code) {
+        if (className) {
             fetchData();
         }
     }, [className]);
@@ -47,17 +35,8 @@ function ClassDetail() {
         return <div>Loading...</div>; // Or some loading component
     }
 
-
-    // Fetch class details using classId or display class information
-    // For demonstration, just displaying the class ID
     return (
         <>
-            {/* <NavigationBar /> */}
-            {/* <div>
-                <h2>Class Details</h2>
-                <p>Displaying details for class ID: {className}</p>
-               
-            </div> */}
             <Container style={{ marginTop: '20px' }}>
                 <h1>{courseData.title}</h1>
                 <Row>
@@ -68,17 +47,14 @@ function ClassDetail() {
                     <Col md={4}>
                         <CurrentGrade grade={courseData.currentGrade} />
                         <Card className="mb-3">
-
                             <Card.Body>
                                 <Card.Title>Calendar</Card.Title>
                                 <center>
                                     <Calendar onChange={setDate} value={date} />
                                 </center>
                             </Card.Body>
-
                         </Card>
                     </Col>
-
                 </Row>
             </Container>
         </>

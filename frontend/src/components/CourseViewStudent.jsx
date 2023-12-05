@@ -10,11 +10,11 @@ function CourseViewStudent() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Replace the URL with your actual API endpoint for fetching classes
                 const response = await axios.get('/api/classes');
                 setClasses(response.data);
             } catch (error) {
                 console.error('Error fetching classes:', error);
+                alert('Error fetching classes')
             }
         };
 
