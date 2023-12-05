@@ -14,7 +14,6 @@ drop table admin;
 INSERT INTO schoolmanagementdb.admin (admin_email, admin_fname,admin_lname, admin_password) 
 VALUES ('miyarkarthikkamath@gmail.com','Miyar Karthik', 'Kamath','miya123');
 
-
 create table course(
 course_id int not null,
 course_name varchar(70),
@@ -53,10 +52,19 @@ VALUES ('1008','sanjaygarje@gmail.com','Sanjay', 'Garje','san123');
 INSERT INTO schoolmanagementdb.teacher (teacher_id, teacher_email, teacher_fname, teacher_lname, teacher_password) 
 VALUES ('1009','michaellarkin@gmail.com','Michael', 'Larkin','mike123');
 
+create table teacher_grade(
+teacher_id bigint not null,
+grade_id varchar(30) not null,
+primary key (teacher_id, grade_id),
+foreign key (teacher_id) references teacher(teacher_id),
+foreign key (grade_id) references grade(grade_id)
+);
+
+select * from teacher_grade;
+drop table teacher_grade;
 
 create table student(
 student_id bigint not null,
-parent_id bigint not null,
 student_email varchar(30),
 student_fname varchar(30),
 student_lname varchar(30),
@@ -68,43 +76,19 @@ student_password varchar(20),
 join_date datetime,
 grade_id varchar(30) not null,
 primary key (student_id),
-foreign key (grade_id) references grade(grade_id),
-foreign key (parent_id) references parent(parent_id));
+foreign key (grade_id) references grade(grade_id));
 
 select * from student;
 drop table student;
 
-INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, parent_id, grade_id)
-VALUES ('017449133', 'miyarkarthikkamath@gmail.com', 'Miyar Karthik', 'Kamath','26', 'Male', 'Alameda, San Jose', '4085813438', 'kaka123','9133', 'P1');
-INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, parent_id, grade_id)
-VALUES ('017449134', 'mohithsharma@gmail.com', 'Mohith', 'Sharma','23', 'Male', 'Alameda, San Jose', '4085813439', 'mohith123','9134', 'K');
-INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, parent_id, grade_id)
-VALUES ('017449135', 'harshilvyas@gmail.com', 'Harshil', 'Vyas','23', 'Male', 'San Fernando, San Jose', '4085813440', 'harsh123','9135', 'K');
-INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, parent_id, grade_id)
-VALUES ('017449136', 'pranavjain@gmail.com', 'Pravan', 'Jain','25', 'Male', 'Alameda, San Jose', '4085813441', 'pran123','9136', 'P1');
-
-
-
-create table parent(
-parent_id bigint not null,
-parent_email varchar(30),
-parent_fname varchar(30),
-parent_lname varchar(30),
-relationship varchar(15),
-parent_phone bigint,
-parent_password varchar(20),
-join_date datetime,
-primary key (parent_id));
-
-select * from parent;
-drop table parent;
-
-INSERT INTO schoolmanagementdb.parent (parent_id, parent_email, parent_fname, parent_lname, relationship, parent_phone, parent_password)
-VALUES ('9133', 'kamathfamily@gmail.com','Miyar', 'Kamath', 'Father', '3085813438', 'miya123');
-INSERT INTO schoolmanagementdb.parent (parent_id, parent_email, parent_fname, parent_lname, relationship, parent_phone, parent_password)
-VALUES ('9134', 'coorgfamily@gmail.com','Mahesh', 'G', 'Father', '3085813439', 'mahi123');
-INSERT INTO schoolmanagementdb.parent (parent_id, parent_email, parent_fname, parent_lname, relationship, parent_phone, parent_password)
-VALUES ('9136', 'bengalurufamily@gmail.com','Prasad', 'Jain', 'Father', '3085813440', 'prad123');
+INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, grade_id)
+VALUES ('017449133', 'miyarkarthikkamath@gmail.com', 'Miyar Karthik', 'Kamath','26', 'Male', 'Alameda, San Jose', '4085813438', 'kaka123', 'P1');
+INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, grade_id)
+VALUES ('017449134', 'mohithsharma@gmail.com', 'Mohith', 'Sharma','23', 'Male', 'Alameda, San Jose', '4085813439', 'mohith123', 'K');
+INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, grade_id)
+VALUES ('017449135', 'harshilvyas@gmail.com', 'Harshil', 'Vyas','23', 'Male', 'San Fernando, San Jose', '4085813440', 'harsh123', 'K');
+INSERT INTO schoolmanagementdb.student (student_id, student_email, student_fname, student_lname, age, gender, student_address, student_phone, student_password, grade_id)
+VALUES ('017449136', 'pranavjain@gmail.com', 'Pravan', 'Jain','25', 'Male', 'Alameda, San Jose', '4085813441', 'pran123', 'P1');
 
 
 create table grade(
@@ -167,7 +151,6 @@ create table attendance(
 date date,
 student_id bigint not null,
 course_id int not null,
-course_name varchar(50),
 present int,
 absent int,
 total_classes int,
@@ -179,21 +162,25 @@ foreign key (course_id) references course(course_id)
 select * from attendance;
 drop table attendance;
 
-insert into schoolmanagementdb.attendance (date, student_id, course_id, status)
-values ('2023-11-09', '017449133', '272', 'Present');
+insert into schoolmanagementdb.attendance (date, student_id, course_id, total_classes)
+values ('2023-11-09', '017449133', '272', 10);
 
-create table assignement(
+create table assignment(
 date date,
 student_id bigint not null,
 course_id int not null,
+file_name varchar(50) not null,
 status enum('Submitted', 'Pending'),
-primary key (date, student_id, course_id),
+primary key (student_id, course_id, file_name),
 foreign key (student_id) references student(student_id),
-foreign key (course_id) references course(course_id)
+foreign key (course_id) references course(course_id),
+foreign key (file_name) references file(file_name)
 );
 
-select * from assignement;
-insert into schoolmanagementdb.assignement (date, student_id, course_id, status)
+select * from assignment;
+drop table assignment;
+
+insert into schoolmanagementdb.assignement (date, student_id, course_id, file_name, status)
 values ('2023-12-01', '017449133', '272', 'Submitted');
 
 
